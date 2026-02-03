@@ -286,6 +286,7 @@ function renderEvents() {
                 
                 <div class="event-actions">
                     <button class="action-btn" onclick="showReplyForm('${event.id}')"><i class="fas fa-reply"></i></button>
+                    <button class="action-btn" onclick="copyEvent('${event.id}')"><i class="fa-regular fa-copy"></i></button>
                     <button class="action-btn" onclick="editEvent('${event.id}')"><i class="fas fa-edit"></i></button>
                     <button class="danger-btn" onclick="deleteEvent('${event.id}')"><i class="fas fa-trash"></i></button>
                 </div>
@@ -575,6 +576,37 @@ function editEvent(id) {
     updateTagPreview();
 
     eventModal.classList.add('show');
+}
+
+// Copia evento negli appunti
+async function copyEvent(id) {
+    const event = events.find(e => e.id === id);
+    if (!event) return;
+    
+    const tag = getTagById(event.tag_id);
+    const tagName = tag ? tag.name : 'Senza tag';
+    
+    let copyText = `Nome: ${event.title}\n`;
+    copyText += `Tag: ${tagName}\n`;
+    copyText += `Data e Ora: ${formatDate(event.date)}\n`;
+    
+    if (event.description) {
+        copyText += `\nDescrizione:\n${event.description}\n`;
+    }
+    
+    if (event.list && event.list.length > 0) {
+        copyText += `\nElenco:\n`;
+        event.list.forEach(item => {
+            copyText += `${item.checked ? '✓' : '○'} ${item.text}\n`;
+        });
+    }
+    
+    try {
+        await navigator.clipboard.writeText(copyText);
+        await showAlert('Evento copiato negli appunti!', 'Successo');
+    } catch (err) {
+        await showAlert('Errore durante la copia negli appunti', 'Errore');
+    }
 }
 
 // Elimina evento (sposta in cronologia)
