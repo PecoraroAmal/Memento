@@ -58,6 +58,49 @@ function showAlert(message, title = 'Avviso') {
     });
 }
 
+// PWA Install
+let deferredPrompt;
+const installSection = document.getElementById('installSection');
+const installBtn = document.getElementById('installBtn');
+
+// Cattura l'evento beforeinstallprompt
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Previeni il prompt automatico
+    e.preventDefault();
+    // Salva l'evento per usarlo dopo
+    deferredPrompt = e;
+    // Mostra il pulsante di installazione
+    installSection.style.display = 'block';
+});
+
+// Gestisci click sul pulsante installa
+installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) {
+        return;
+    }
+    
+    // Mostra il prompt di installazione
+    deferredPrompt.prompt();
+    
+    // Aspetta la scelta dell'utente
+    const { outcome } = await deferredPrompt.userChoice;
+    
+    if (outcome === 'accepted') {
+        await showAlert('Memento™ è stato installato con successo!', 'Installazione Completata');
+    }
+    
+    // Resetta il prompt
+    deferredPrompt = null;
+    // Nascondi il pulsante
+    installSection.style.display = 'none';
+});
+
+// Nascondi pulsante se già installata
+window.addEventListener('appinstalled', () => {
+    installSection.style.display = 'none';
+    deferredPrompt = null;
+});
+
 // Elementi DOM
 const tagsList = document.getElementById('tagsList');
 const tagModal = document.getElementById('tagModal');
