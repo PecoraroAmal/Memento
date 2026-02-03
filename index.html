@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memento™</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=3.1">
+    <meta name="theme-color" content="#FFFFFF">
+    <link rel="icon" href="icons/favicon-96x96.png">
+    <script>
+        if (window.location.pathname + window.location.search !== '/Memento/index.html?v=3.1') {
+            window.location.replace('/Memento/index.html?v=3.1');
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <a href="settings.html?v=3.1" class="nav-link"><i class="fas fa-gear"></i></a>
+            <h1>Memento™</h1>
+            <a href="history.html?v=3.1" class="nav-link"><i class="fas fa-clock-rotate-left"></i></a>
+        </div>
+    </header>
+
+    <button id="newEventBtn" class="fab-btn"><i class="fas fa-plus"></i></button>
+
+    <main>
+        <!-- Search and Filters -->
+        <div class="search-filters">
+            <div class="search-header">
+                <input type="text" id="searchBox" class="search-box" placeholder="Cerca negli eventi...">
+                <button id="toggleFilters" class="filter-toggle-btn">
+                    <i class="fa-solid fa-arrow-down-wide-short"></i>
+                </button>
+            </div>
+            <div id="filtersContainer" class="filters-container" style="display: none;">
+                <div class="filters-row">
+                <div class="filter-group">
+                    <label for="filterTag">Tag</label>
+                    <select id="filterTag">
+                        <option value="">Tutti</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filterYear">Anno</label>
+                    <select id="filterYear">
+                        <option value="">Tutti</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filterMonth">Mese</label>
+                    <select id="filterMonth">
+                        <option value="">Tutti</option>
+                        <option value="01">Gennaio</option>
+                        <option value="02">Febbraio</option>
+                        <option value="03">Marzo</option>
+                        <option value="04">Aprile</option>
+                        <option value="05">Maggio</option>
+                        <option value="06">Giugno</option>
+                        <option value="07">Luglio</option>
+                        <option value="08">Agosto</option>
+                        <option value="09">Settembre</option>
+                        <option value="10">Ottobre</option>
+                        <option value="11">Novembre</option>
+                        <option value="12">Dicembre</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filterHour">Ora</label>
+                    <select id="filterHour">
+                        <option value="">Tutte</option>
+                    </select>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <div id="eventsList" class="events-list"></div>
+    </main>
+
+    <!-- Modal per creare/modificare eventi -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">Nuovo Evento</h2>
+            
+            <form id="eventForm">
+                <div class="form-group">
+                    <label for="eventName">Nome Evento</label>
+                    <input type="text" id="eventName" required>
+                    <div id="tagPreview" class="tag-preview" style="display: none;">
+                        <span id="tagPreviewBadge" class="event-tag"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventText">Descrizione</label>
+                    <textarea id="eventText" rows="4"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventList">Elenco Puntato (uno per riga)</label>
+                    <textarea id="eventList" rows="4" placeholder="Elemento 1&#10;Elemento 2&#10;Elemento 3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventDate">Data e Ora</label>
+                    <input type="datetime-local" id="eventDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventTag">Tag</label>
+                    <select id="eventTag" required>
+                        <option value="">Seleziona un tag</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="primary-btn">Salva</button>
+                    <button type="button" class="secondary-btn" id="cancelBtn">Annulla</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal per conferme e avvisi -->
+    <div id="confirmModal" class="modal confirm-modal">
+        <div class="modal-content confirm-content">
+            <h3 id="confirmTitle">Conferma</h3>
+            <p id="confirmMessage"></p>
+            <div class="form-actions">
+                <button id="confirmOk" class="primary-btn">OK</button>
+                <button id="confirmCancel" class="secondary-btn">Annulla</button>
+            </div>
+        </div>
+    </div>
+    <footer style="text-align: center; padding: 2rem; opacity: 0.6; font-size: 0.9rem;">
+        <a href="cookie-privacy.html" style="color: var(--text-color); text-decoration: none;">Cookie & Privacy Policy</a>
+    </footer>
+    <script src="index.js?v=3.1"></script>
+</body>
+</html>
