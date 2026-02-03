@@ -164,7 +164,10 @@ function renderTags() {
         return;
     }
 
-    tagsList.innerHTML = tags.map(tag => `
+    // Ordina alfabeticamente per nome
+    const sortedTags = [...tags].sort((a, b) => a.name.localeCompare(b.name));
+
+    tagsList.innerHTML = sortedTags.map(tag => `
         <div class="tag-item" data-id="${tag.id}">
             <div class="tag-info">
                 <span class="tag-badge" style="background-color: ${tag.color}">${escapeHtml(tag.name)}</span>
